@@ -59,7 +59,8 @@
 
 extern int tabsel_123[2][3][16];
 
-struct frame {
+struct frame
+{
     int stereo;
     int jsbound;
     int single;
@@ -80,11 +81,12 @@ struct frame {
     int framesize; /* computed framesize */
 };
 
-struct parameter {
-	int quiet;	/* shut up! */
-	int tryresync;  /* resync stream after error */
-	int verbose;    /* verbose level */
-	int checkrange;
+struct parameter
+{
+    int quiet;	/* shut up! */
+    int tryresync;  /* resync stream after error */
+    int verbose;    /* verbose level */
+    int checkrange;
 };
 
 /* extern unsigned int   get1bit(void); */
@@ -101,34 +103,36 @@ extern int decode_header(struct frame *fr,unsigned long newhead);
 
 
 
-struct gr_info_s {
-      int scfsi;
-      unsigned part2_3_length;
-      unsigned big_values;
-      unsigned scalefac_compress;
-      unsigned block_type;
-      unsigned mixed_block_flag;
-      unsigned table_select[3];
-      unsigned subblock_gain[3];
-      unsigned maxband[3];
-      unsigned maxbandl;
-      unsigned maxb;
-      unsigned region1start;
-      unsigned region2start;
-      unsigned preflag;
-      unsigned scalefac_scale;
-      unsigned count1table_select;
-      real *full_gain[3];
-      real *pow2gain;
+struct gr_info_s
+{
+    int scfsi;
+    unsigned part2_3_length;
+    unsigned big_values;
+    unsigned scalefac_compress;
+    unsigned block_type;
+    unsigned mixed_block_flag;
+    unsigned table_select[3];
+    unsigned subblock_gain[3];
+    unsigned maxband[3];
+    unsigned maxbandl;
+    unsigned maxb;
+    unsigned region1start;
+    unsigned region2start;
+    unsigned preflag;
+    unsigned scalefac_scale;
+    unsigned count1table_select;
+    real *full_gain[3];
+    real *pow2gain;
 };
 
 struct III_sideinfo
 {
-  unsigned main_data_begin;
-  unsigned private_bits;
-  struct {
-    struct gr_info_s gr[2];
-  } ch[2];
+    unsigned main_data_begin;
+    unsigned private_bits;
+    struct
+    {
+        struct gr_info_s gr[2];
+    } ch[2];
 };
 
 extern int synth_1to1 (real *,int,unsigned char *,int *);
