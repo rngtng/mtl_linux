@@ -110,4 +110,7 @@ clean:
 debug: $(TARGET)
 	$(DEBUG) $< < gdb_load
 
-.PHONY: clean debug elf
+style:
+	astyle --style=bsd -s4 --indent-preprocessor --add-brackets --recursive *.h *.c*
+
+.PHONY: clean debug elf style
