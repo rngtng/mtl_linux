@@ -4,3 +4,4 @@ mtl_compiler
 libvcomp.a
 *.bin
 *.mtl
+dumpbc.c

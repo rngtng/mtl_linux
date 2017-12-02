@@ -93,7 +93,7 @@ obj/%.o : %.c
 	$(CC) -c $(CFLAGS) $< -o $@
 
 $(SIMU_TARGET): $(SIMU_OBJS)
-	$(CPP) $(LDFLAGS) -o $@ $^ $(LIBS)
+	$(CPP) -lresolv $(LDFLAGS) -o $@ $^ $(LIBS)
 
 $(COMP_TARGET): $(COMP_OBJS)
 	$(CPP) $(LDFLAGS) -o $@ $^ $(LIBS)
