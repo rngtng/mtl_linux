@@ -208,7 +208,7 @@ void my_printf_set_options(const char *s)
         }
         else
         {
-            fprintf(stderr, "erreur: %s n'est pas une option valide pour les logs\n");
+            fprintf(stderr, "erreur: %%s n'est pas une option valide pour les logs\n");
             break;
         }
         token = strtok(NULL, ",");
