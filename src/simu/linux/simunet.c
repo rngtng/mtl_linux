@@ -135,7 +135,6 @@ int tcpbysock(int s);
 int checkTcpEvents(void)
 {
     fd_set fdset_r, fdset_w, fdset_err;
-    int nfds = 0;
     int maxval = 0; // doit pouvoir être dispo directement
     struct timeval timeout = {0, 0} ;
     int i;
@@ -376,7 +375,6 @@ int tcpopen(char* dstip,int dstport)
 {
     int socktcp;
     struct sockaddr_in ina;
-    int opt=1;
 
     int i=tcpgetfree();
     if (i<0)
@@ -630,7 +628,6 @@ int udpsend(int localport,char* dstip,int dstport,char* msg, int len)
 int checkUdpEvents(void)
 {
     fd_set fdset_r, fdset_w, fdset_err;
-    int nfds = 0;
     int maxval = 0; // doit pouvoir être dispo directement
     struct timeval timeout = {0, 0} ;
     int i;
