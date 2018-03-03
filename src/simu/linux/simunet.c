@@ -214,7 +214,7 @@ int tcpEventRead(int fd)
         // accept
         struct sockaddr_in cor;
         int ns;
-        int sizecor;
+        socklen_t sizecor;
         int ni,ip,port;
         char buf[16];
 
@@ -677,7 +677,7 @@ int udpEventRead(int fd)
     char buf[4096];
     struct sockaddr_in add;
     int i=udpbysock(fd);
-    int l=sizeof(add);
+    socklen_t l=sizeof(add);
     int res=recvfrom(fd,buf,4096,0,(struct sockaddr *)&add,&l);
     if (res<0)
     {
