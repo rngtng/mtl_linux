@@ -38,7 +38,6 @@ static void my_printf_check_log_roll(void);
 static const char *get_prefix(e_logtypes t)
 {
     const char *res = NULL;
-    int i;
     switch (t)
     {
     case LOG_INIT:
