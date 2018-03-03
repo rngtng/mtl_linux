@@ -251,7 +251,7 @@ int my_printf_set_logfile(const char *filename)
 }
 
 
-static int my_printf_rotate_log_n(int n);
+static void my_printf_rotate_log_n(int n);
 
 /**
 	 Effectue la rotation des logs
@@ -260,7 +260,7 @@ static int my_printf_rotate_log_n(int n);
    - le log courant devient <log>.0
 	 - on reouvre le fichier <log> pour logger dedans
  */
-static int my_printf_rotate_log(void)
+static void my_printf_rotate_log(void)
 {
     // décaler tous les logs existants et <log> en <log>.0
     my_printf_rotate_log_n(-1);
@@ -278,7 +278,7 @@ static int my_printf_rotate_log(void)
 
 	 /!\ fonction réentrante
  */
-static int my_printf_rotate_log_n(int n)
+static void my_printf_rotate_log_n(int n)
 {
     char tmpn[255];
     char tmpnplusun[255];
