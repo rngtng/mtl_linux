@@ -1,5 +1,6 @@
 #include <string.h>
 #include <stdio.h>
+#include <ctype.h>
 
 #include <resolv.h>
 #include <arpa/inet.h>
@@ -15,6 +16,7 @@
 #include "vmem.h"
 #include "vloader.h"
 #include "vinterp.h"
+#include"simunet.h"
 
 #include "log.h"
 
@@ -39,17 +41,9 @@ int tcpEventRead(int fd);
 int tcpEventWrite(int fd);
 int tcpbysock(int s);
 int tcpgetfree(void);
-int tcpopen(char* dstip,int dstport);
-int tcpclose(int i);
-void tcpenable(int i,int enable);
-int tcpsend(int i,char* msg, int len);
-int tcpservercreate(int port);
 int udpbyport(int p);
 int udpgetfree(void);
 int udpbysock(int s);
-int udpcreate(int port);
-int udpclose(int port);
-int udpsend(int localport,char* dstip,int dstport,char* msg, int len);
 int checkUdpEvents();
 int udpEventRead(int fd);
 
@@ -135,7 +129,6 @@ int tcpbysock(int s);
 int checkTcpEvents(void)
 {
     fd_set fdset_r, fdset_w, fdset_err;
-    int nfds = 0;
     int maxval = 0; // doit pouvoir être dispo directement
     struct timeval timeout = {0, 0} ;
     int i;
@@ -215,7 +208,7 @@ int tcpEventRead(int fd)
         // accept
         struct sockaddr_in cor;
         int ns;
-        int sizecor;
+        socklen_t sizecor;
         int ni,ip,port;
         char buf[16];
 
@@ -376,7 +369,6 @@ int tcpopen(char* dstip,int dstport)
 {
     int socktcp;
     struct sockaddr_in ina;
-    int opt=1;
 
     int i=tcpgetfree();
     if (i<0)
@@ -630,7 +622,6 @@ int udpsend(int localport,char* dstip,int dstport,char* msg, int len)
 int checkUdpEvents(void)
 {
     fd_set fdset_r, fdset_w, fdset_err;
-    int nfds = 0;
     int maxval = 0; // doit pouvoir être dispo directement
     struct timeval timeout = {0, 0} ;
     int i;
@@ -680,7 +671,7 @@ int udpEventRead(int fd)
     char buf[4096];
     struct sockaddr_in add;
     int i=udpbysock(fd);
-    int l=sizeof(add);
+    socklen_t l=sizeof(add);
     int res=recvfrom(fd,buf,4096,0,(struct sockaddr *)&add,&l);
     if (res<0)
     {
