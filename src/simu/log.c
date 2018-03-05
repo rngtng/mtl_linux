@@ -38,7 +38,6 @@ static void my_printf_check_log_roll(void);
 static const char *get_prefix(e_logtypes t)
 {
     const char *res = NULL;
-    int i;
     switch (t)
     {
     case LOG_INIT:
@@ -209,7 +208,7 @@ void my_printf_set_options(const char *s)
         }
         else
         {
-            fprintf(stderr, "erreur: %s n'est pas une option valide pour les logs\n");
+            fprintf(stderr, "erreur: %%s n'est pas une option valide pour les logs\n");
             break;
         }
         token = strtok(NULL, ",");
@@ -252,7 +251,7 @@ int my_printf_set_logfile(const char *filename)
 }
 
 
-static int my_printf_rotate_log_n(int n);
+static void my_printf_rotate_log_n(int n);
 
 /**
 	 Effectue la rotation des logs
@@ -261,7 +260,7 @@ static int my_printf_rotate_log_n(int n);
    - le log courant devient <log>.0
 	 - on reouvre le fichier <log> pour logger dedans
  */
-static int my_printf_rotate_log(void)
+static void my_printf_rotate_log(void)
 {
     // décaler tous les logs existants et <log> en <log>.0
     my_printf_rotate_log_n(-1);
@@ -279,7 +278,7 @@ static int my_printf_rotate_log(void)
 
 	 /!\ fonction réentrante
  */
-static int my_printf_rotate_log_n(int n)
+static void my_printf_rotate_log_n(int n)
 {
     char tmpn[255];
     char tmpnplusun[255];
