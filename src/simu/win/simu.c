@@ -13,7 +13,7 @@
 
 
 #define uchar unsigned char
-#define ulong unsigned long
+#define uint32_t unsigned long
 #ifndef uint
 #define uint unsigned short int
 #endif

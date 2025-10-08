@@ -5,7 +5,7 @@
 //#define VMICROCHIP
 
 typedef unsigned char uchar;
-typedef unsigned long ulong;
+typedef unsigned long uint32_t;
 
 #define vub unsigned char
 #define vsb signed char
