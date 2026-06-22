@@ -1,0 +1,34 @@
+version: '3'
+
+vars:
+  IMAGE: mtl_linux
+  DIR: .
+
+tasks:
+  image:
+    internal: true   # built on demand as a dep; rebuilt when the toolchain/config changes
+    cmds:
+      - docker build -t {{.IMAGE}} {{.DIR}}
+
+  compile:
+    desc: 'Compile MTL source → bytecode.  Usage: task mtl:compile SOURCE=<src.mtl> [OUT=<out.bin>] [SIGN=false]'
+    deps: [image]
+    requires:
+      vars: [SOURCE]
+    vars:
+      OUT: '{{.OUT | default (printf "%s.bin" (trimSuffix ".mtl" (base .SOURCE)))}}'
+      SIGN: '{{.SIGN | default "true"}}'   # signed device-flash format by default; SIGN=false for raw bytecode
+    cmds:
+      # mount SOURCE's dir at /work so the input is read and the output is written back to the host; tools live at /src
+      # compiler args are positional: [-s] source output
+      - 'docker run --rm -v "$(dirname $(realpath {{.SOURCE}})):/work" {{.IMAGE}} /src/mtl_compiler {{if eq .SIGN "true"}}-s {{end}}/work/{{base .SOURCE}} /work/{{.OUT}}'
+
+  simulate:
+    desc: 'Run an MTL app in the simulator (config baked in).  Usage: task mtl:simulate SOURCE=<app>.mtl [-- extra args]'
+    deps: [image]
+    requires:
+      vars: [SOURCE]
+    cmds:
+      # cwd = /src so the baked config.txt is found; SOURCE is mounted into /work and passed via --source.
+      # --init: run tini as PID 1 so the sim (no SIGINT handler) is a child and a single Ctrl+C stops it.
+      - 'docker run --rm --init -v "$(dirname $(realpath {{.SOURCE}})):/work" {{.IMAGE}} /src/mtl_simu --source /work/{{base .SOURCE}} {{.CLI_ARGS}}'
