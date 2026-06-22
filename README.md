@@ -36,26 +36,6 @@ loads. With `-s` it *signs* the output for the real device's flash format:
 it prepends the magic `amber` (5 bytes) followed by the bytecode size as an
 8-char hex string, and appends the `Mind` footer (4 bytes).
 
-# Utilities
-
-## `utils/correct_const.sh`
-
-The compiler warns when a `var` is only assigned once, at its declaration:
-
-    <name> is only set once, at declaration. It should be a const.
-
-This script applies those fixes in bulk. Capture the compile output to a log,
-then run:
-
-    ./utils/correct_const.sh <compile_log> <source.mtl> <corrected.mtl>
-
-It greps the log for the warning, rewrites each matching `var X` to `const X`
-in `<source.mtl>`, and writes the result to `<corrected.mtl>` (the source is
-left untouched).
-
-**Review the changes by hand** — some single-assignment variables should be an
-enum type rather than a `const`, which the script can't tell apart.
-
 # Docker / Task workflow
 
 If you don't want a 32-bit toolchain on your host, run everything in a
