@@ -1,8 +1,8 @@
 version: '3'
 
 vars:
-  IMAGE: mtl_linux
-  DIR: .
+  IMAGE: '{{.IMAGE | default "mtl_linux"}}'
+  DIR: '{{.DIR | default "."}}'
 
 tasks:
   image:
@@ -21,7 +21,7 @@ tasks:
     cmds:
       # mount SOURCE's dir at /work so the input is read and the output is written back to the host; tools live at /src
       # compiler args are positional: [-s] source output
-      - 'docker run --rm -v "$(dirname $(realpath {{.SOURCE}})):/work" {{.IMAGE}} /src/mtl_compiler {{if eq .SIGN "true"}}-s {{end}}/work/{{base .SOURCE}} /work/{{.OUT}}'
+      - 'docker run --rm -v "$(dirname $(realpath {{.SOURCE}})):/work" -w /work {{.IMAGE}} /src/mtl_compiler {{if eq .SIGN "true"}}-s {{end}}/work/{{base .SOURCE}} /work/{{.OUT}}'
 
   simulate:
     desc: 'Run an MTL app in the simulator (config baked in).  Usage: task mtl:simulate SOURCE=<app>.mtl [-- extra args]'
